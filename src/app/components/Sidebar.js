@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LayoutDashboard, Package, Users, Truck } from "lucide-react";
+import Image from "next/image";
 
 export default function Sidebar({ close }) {
     const menu = [
@@ -26,8 +27,10 @@ export default function Sidebar({ close }) {
     ];
 
     return (
-        <div className="h-full w-64 bg-white shadow p-4">
-            <h2 className="text-xl font-bold mb-6">My App</h2>
+        <div className="h-full w-64 bg-white shadow px-4 pb-4">
+            <div className="h-20 flex justify-center items-center">
+                <Image src="/Logo.png" width={160} height={28} alt="logo" />
+            </div>
 
             <nav className="space-y-2">
                 {menu.map((item) => {
