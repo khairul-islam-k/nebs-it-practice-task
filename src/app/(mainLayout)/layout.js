@@ -9,7 +9,7 @@ const MainLayout = ({ children }) => {
     const [open, setOpen] = useState(false);
     return (
         <div>
-            <div className="flex h-screen bg-gray-100">
+            <div className="flex h-screen bg-gray-200">
 
                 {/* Desktop Sidebar */}
                 <div className="hidden md:flex">

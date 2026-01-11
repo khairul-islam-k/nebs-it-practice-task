@@ -5,10 +5,18 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   LayoutDashboard,
-  Package,
   Users,
-  Truck,
   ChevronDown,
+  DollarSign,
+  FileText,
+  CalendarCheck,
+  Send,
+  Briefcase,
+  Folder,
+  Bell,
+  User,
+  LogOut,
+  Activity
 } from "lucide-react";
 
 export default function Sidebar({ close }) {
@@ -31,19 +39,59 @@ export default function Sidebar({ close }) {
       ],
     },
     {
-      name: "Riders",
-      href: "/riders",
-      icon: Truck,
+      name: "Payroll",
+      href: "/dashboard/payroll",
+      icon: DollarSign,
     },
     {
-      name: "Users",
-      href: "/users",
-      icon: Users,
+      name: "Pay Slip",
+      href: "/dashboard/pay-slip",
+      icon: FileText,
     },
+    {
+      name: "Attendance",
+      href: "/dashboard/attendance",
+      icon: CalendarCheck,
+    },
+    {
+      name: "Request Center",
+      href: "/dashboard/request-center",
+      icon: Send,
+    },
+    {
+      name: "Career Database",
+      href: "/dashboard/career-database",
+      icon: Briefcase,
+    },
+    {
+      name: "Document Manager",
+      href: "/dashboard/document-manager",
+      icon: Folder,
+    },
+    {
+      name: "Notice Board",
+      href: "/",
+      icon: Bell,
+    },
+    {
+      name: "Activity Log",
+      href: "/dashboard/activity-log",
+      icon: Activity,
+    },
+    {
+      name: "Exit Interview",
+      href: "/dashboard/exit-interview",
+      icon: LogOut,
+    },
+    {
+      name: "Profile",
+      href: "/dashboard/profile",
+      icon: User,
+    }
   ];
 
   return (
-    <div className="h-full w-64 bg-white shadow px-4 pb-4">
+    <div className="h-full w-64 bg-white shadow px-4 pb-4 overflow-auto">
       <div className="h-20 flex justify-center items-center">
         <Image src="/Logo.png" width={160} height={28} alt="logo" />
       </div>
@@ -80,9 +128,8 @@ export default function Sidebar({ close }) {
                 </span>
                 <ChevronDown
                   size={18}
-                  className={`transition ${
-                    openOrders ? "rotate-180" : ""
-                  }`}
+                  className={`transition ${openOrders ? "rotate-180" : ""
+                    }`}
                 />
               </button>
 
