@@ -3,21 +3,64 @@
 import { useRef, useState } from "react";
 import { UploadCloud, FileText, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-export default function FileUpload() {
+export default function FileUpload({setPhotoUrl, setIsLoading}) {
     const inputRef = useRef(null);
     const [file, setFile] = useState(null);
-    console.log(file)
 
-    const handleSelect = (e) => {
+    const handleSelect = async (e) => {
+        setIsLoading(true);
         const selected = e.target.files[0];
-        if (selected) setFile(selected);
+        if (selected.type !== "image/jpeg" && selected.type !== "image/png") {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "You can use only png and jpg image",
+                footer: '<a href="#">Why do I have this issue?</a>'
+            });
+
+            return;
+        }
+        setFile(selected);
+        const formData = new FormData();
+        formData.append("image", selected);
+
+        const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_UPLOAD_KEY}`;
+
+        const res = await axios.post(imageUploadUrl, formData);
+        const photo = res.data.data.url;
+
+        setPhotoUrl(photo);
+        setIsLoading(false);
     };
 
-    const handleDrop = (e) => {
+    const handleDrop = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const dropped = e.dataTransfer.files[0];
-        if (dropped) setFile(dropped);
+        if (dropped.type !== "image/jpeg" && dropped.type !== "image/png") {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "You can use only png and jpg image",
+                footer: '<a href="#">Why do I have this issue?</a>'
+            });
+
+            return;
+        }
+        setFile(dropped);
+        const formData = new FormData();
+        formData.append("image", dropped);
+
+        const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_UPLOAD_KEY}`;
+
+        const res = await axios.post(imageUploadUrl, formData);
+        const photo = res.data.data.url;
+
+        setPhotoUrl(photo);
+        setIsLoading(false);
     };
 
     return (
@@ -45,14 +88,6 @@ export default function FileUpload() {
                     onChange={handleSelect}
                 />
 
-                {/* {file && (
-                    <div className="mt-4 flex items-center gap-2 text-sm text-gray-600">
-                        <FileText size={16} />
-                        {file.name}
-                    </div>
-                )} */}
-
-                {/* <Button className="mt-6">Submit File</Button> */}
             </div>
 
             <div className="flex items-center gap-4 my-5">
