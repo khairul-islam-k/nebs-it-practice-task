@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Calendar, ChevronDown, Pencil } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -18,7 +19,9 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-3">
-          <Button className="bg-[#F95524] hover:bg-amber-500 cursor-pointer">+ Create Notice</Button>
+          <Link href="createNotice">
+            <Button className="bg-[#F95524] hover:bg-amber-500 cursor-pointer">+ Create Notice</Button>
+          </Link>
           <Button className="bg-gray-200 border border-[#F95524] text-[#F95524] hover:bg-gray-300 cursor-pointer"><Pencil /> All Draft Notice</Button>
         </div>
 
