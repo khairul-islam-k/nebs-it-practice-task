@@ -12,50 +12,64 @@ import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 const CreateForm = () => {
     const [photoUrl, setPhotoUrl] = useState("");
+    const [insertedId, setInsertedId] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isDraft, setIsDraft] = useState(false);
     const [open, setOpen] = useState(false);
 
-    
+
 
     const {
         register,
         control,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
     const onSubmit = async (data) => {
         if (isLoading) {
-            return ;
+            return;
         }
 
         data.photoUrl = photoUrl;
 
         if (isDraft) {
-            data.status= "Unpublished";
-            console.log("FORM DATA  Draft👉", data);
-            
-        } else {
-            data.status= "Published";
-            console.log("FORM DATA👉", data);
-            const res = await axios.post("http://localhost:5000/notices", data);
-            console.log(res?.data?.insertedId);
+            data.status = "Draft";
+
+            const res = await axios.post("https://nebs-it-server-six.vercel.app/notices", data);
+
+            setInsertedId(res?.data?.insertedId);
             if (res?.data?.insertedId) {
+                reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+        } else {
+            data.status = "Published";
+
+            const res = await axios.post("https://nebs-it-server-six.vercel.app/notices", data);
+            setInsertedId(res?.data?.insertedId);
+            if (res?.data?.insertedId) {
+                reset();
                 setOpen(true);
             }
         }
     };
 
-    // if (isLoading) {
-    //     return <Loader></Loader>
-    // }
 
     return (
-        <div> 
+        <div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -200,9 +214,9 @@ const CreateForm = () => {
                             <FieldLabel htmlFor="checkout-7j9-optional-comments">
                                 Upload Attachments (optional)
                             </FieldLabel>
-                            <FileUpload 
-                            setPhotoUrl={setPhotoUrl}
-                            setIsLoading={setIsLoading}  />
+                            <FileUpload
+                                setPhotoUrl={setPhotoUrl}
+                                setIsLoading={setIsLoading} />
                         </Field>
                     </div>
 
@@ -210,15 +224,15 @@ const CreateForm = () => {
 
                 {/* button section */}
                 <div className="py-6 flex justify-end gap-3">
-                    <Button 
-                    type="button"
-                    className="bg-gray-200 text-[#595F7A] border border-[#595F7A] hover:bg-gray-300 cursor-pointer">Cancel</Button>
-                    <Button type="submit"
-                    onClick={() => setIsDraft(true)}
-                    className="bg-gray-200 text-[#3B82F6] border border-[#595F7A] hover:bg-gray-300 cursor-pointer">Save as Draft</Button>
                     <Button
-                    onClick={() => setIsDraft(false)}
-                    type="submit" className="bg-[#F95524] hover:bg-amber-500 cursor-pointer">
+                        type="button"
+                        className="bg-gray-200 text-[#595F7A] border border-[#595F7A] hover:bg-gray-300 cursor-pointer">Cancel</Button>
+                    <Button type="submit"
+                        onClick={() => setIsDraft(true)}
+                        className="bg-gray-200 text-[#3B82F6] border border-[#595F7A] hover:bg-gray-300 cursor-pointer">Save as Draft</Button>
+                    <Button
+                        onClick={() => setIsDraft(false)}
+                        type="submit" className="bg-[#F95524] hover:bg-amber-500 cursor-pointer">
                         {isLoading && <Spinner className="size-3" />}
                         <span>Publish Notice</span>
                     </Button>
@@ -227,7 +241,10 @@ const CreateForm = () => {
             </form>
 
             {/* success Modal */}
-            <SuccessModal open={open} onClose={() => setOpen(false)}></SuccessModal>
+            <SuccessModal
+                insertedId={insertedId}
+                open={open}
+                onClose={() => setOpen(false)}></SuccessModal>
 
         </div>
     );

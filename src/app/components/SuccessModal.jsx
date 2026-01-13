@@ -3,9 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { CheckCircle } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
-const SuccessModal = ({ open, onClose }) => {
+const SuccessModal = ({ open, onClose, insertedId }) => {
     return (
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="max-w-md rounded-2xl p-8 text-center">
@@ -27,12 +28,14 @@ const SuccessModal = ({ open, onClose }) => {
 
                 {/* Buttons — MUST be inside DialogContent */}
                 <div className="mt-8 flex gap-3 justify-center">
-                    <Button className="text-[#3B82F6] border border-[#3B82F6] rounded-full bg-white hover:bg-white cursor-pointer">
-                        View Notice
-                    </Button>
+                    <Link href={`/${insertedId}`}>
+                        <Button className="text-[#3B82F6] border border-[#3B82F6] rounded-full bg-white hover:bg-white cursor-pointer">
+                            View Notice
+                        </Button>
+                    </Link>
 
                     <Button onClick={onClose}
-                     className="text-[#F95524] border border-[#F95524] rounded-full bg-white hover:bg-white cursor-pointer">
+                        className="text-[#F95524] border border-[#F95524] rounded-full bg-white hover:bg-white cursor-pointer">
                         + Create Another
                     </Button>
 

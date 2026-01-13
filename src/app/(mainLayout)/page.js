@@ -23,7 +23,10 @@ export default function Home() {
           <Link href="createNotice">
             <Button className="bg-[#F95524] hover:bg-amber-500 cursor-pointer">+ Create Notice</Button>
           </Link>
+
+          <Link href="/draft">
           <Button className="bg-gray-200 border border-[#F95524] text-[#F95524] hover:bg-gray-300 cursor-pointer"><Pencil /> All Draft Notice</Button>
+          </Link>
         </div>
 
       </div>
