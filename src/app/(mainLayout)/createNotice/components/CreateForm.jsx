@@ -36,12 +36,17 @@ const CreateForm = () => {
         data.photoUrl = photoUrl;
 
         if (isDraft) {
+            data.status= "Unpublished";
             console.log("FORM DATA  Draft👉", data);
             
         } else {
+            data.status= "Published";
             console.log("FORM DATA👉", data);
             const res = await axios.post("http://localhost:5000/notices", data);
-            console.log(res);
+            console.log(res?.data?.insertedId);
+            if (res?.data?.insertedId) {
+                setOpen(true);
+            }
         }
     };
 
@@ -51,8 +56,6 @@ const CreateForm = () => {
 
     return (
         <div> 
-
-            <Button onClick={() => setOpen(true)}>modata</Button>
 
             <form onSubmit={handleSubmit(onSubmit)}>
 

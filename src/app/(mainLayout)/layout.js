@@ -50,7 +50,7 @@ const MainLayout = ({ children }) => {
                             </div>
                         </div>
 
-                        <div className="p-4">
+                        <div className="p-4 overflow-hidden">
                             {children}
                         </div>
 
